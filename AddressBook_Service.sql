@@ -2,6 +2,7 @@
 --UC1 Created database of AddressBook service
 create database AddressBook_Service;
 
+use AddressBook_Service;
 --UC2 Ability to create Addressbook Table with attributes
 create table Addressbook (
 FirstName varchar(25),
@@ -60,5 +61,38 @@ select * from Addressbook order by City asc;
 select FirstName,LastName,Address,State from Addressbook order by City asc;
 
 select City,FirstName from Addressbook order by FirstName asc;
+
+--UC9 Identify each AddressBook with name and type
+--Altering table
+alter table Addressbook add AddressbookName varchar(30),Type varchar(30);
+
+--Updating Table column with Name and type
+update Addressbook set AddressbookName='H', Type='Family' where FirstName='Hemant';
+update Addressbook set AddressbookName='M', Type='Family' where FirstName='Mrunal';
+update Addressbook set AddressbookName='N', Type='Friend' where FirstName='Nikhil';
+update Addressbook set AddressbookName='J', Type='Profession' where FirstName='Jethalal';
+
+select * from Addressbook;
+
+--UC10 Get number of Contact Persons i.e Count by Type
+select COUNT(Type) as FriendsCircle from Addressbook where Type='Friend' group by type;
+
+select COUNT(Type) as FamilyMember from Addressbook where Type='Family' group by type;
+
+select COUNT(Type) as Partners from Addressbook where Type='Profession' group by type;
+
+
+--UC11 Ability to Add Person to both Friend and Family
+
+
+insert into Addressbook values('Sonu','Dhurve','Shivaji Nagar','Nagpur','Maharashtra',8526452584,415825,'Sonudh@yahoo.com','S','Family'),
+	  ('Sonu','Dhurve','Shivaji Nagar','Nagpur','Maharashtra',8526452584,415825,'Sonudh@yahoo.com','S','Friend');
+
+select * from Addressbook;
+
+--Checking it working as expected or not
+select COUNT(Type) as FamilyCount from Addressbook where Type='Family' group by Type; 
+select COUNT(Type) as FriendCount from Addressbook where Type='Friend' group by Type; 
+select COUNT(Type) as PartnerCount from Addressbook where Type='Profession' group by Type; 
 
 
