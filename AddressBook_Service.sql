@@ -96,3 +96,89 @@ select COUNT(Type) as FriendCount from Addressbook where Type='Friend' group by 
 select COUNT(Type) as PartnerCount from Addressbook where Type='Profession' group by Type; 
 
 
+--UC12 Identifiy Entities using Normalization Technique
+--for that we have to create new table with Entities and attributes
+
+
+create table NewAddbook
+(Id int primary key identity(1,1),
+FirstName varchar(25),
+LastName varchar(25),
+Address varchar(300),
+City varchar(50),
+State varchar(50),
+PhoneNumber bigint,
+Zip int,
+Email varchar(100) );
+
+select * from NewAddbook;
+
+--Inserting Values
+insert into NewAddbook values
+       ('Karan','Andrew','Bhav Nagari','Nagpur','Maharashtra',8255452652,441905,'karanndrew7@gmail.com'),
+       ('Dolly','Matt','Gunda Nagar','Bagalkot','Karnataka',9997755585,545455,'dolly@gmail.com'),
+	   ('Ashish','Goel','Rajiv Chowk','Surat','Gujarat',9308495645,665522,'ashishg@yahoo.com'),
+	   ('Anil','Vanda','Civil Nagar','Hyderabad','Telengana',8896555220,441552,'anilvan@gmail.com'),
+	   ('Raju','Singh','Main Road','Mumbai','Maharashtra',9788857558,409665,'rajubhai@reddit.com');
+
+--creating another table to assign relation with Name and type as given
+
+create table AddbookName(Id int ,Name varchar(20),PhoneNumber bigint, foreign key (Id) references NewAddbook(Id));
+
+create table AddbookType(Id int ,Type varchar(20), foreign key (Id) references NewAddbook(Id));
+ select * from AddbookName;
+ select * from AddbookType;
+
+ --inserting values in AddbookName and AddbookType table
+
+ insert into AddbookName values
+ (1,'Karan',8255452652),
+ (2,'Dolly',9997755585),
+ (3,'Ashish',9308495645),
+ (4,'Anil',8896555220),
+ (5,'Raju',9788857558);
+
+ insert into AddbookType values
+ (1,'Partner'),
+ (2,'Friend'),
+ (3,'Family'),
+ (4,'Friend'),
+ (5,'Family');
+ 
+ select * from AddbookName;
+ select * from AddbookType;        --Complete with assigning attributes and relationship
+
+ --UC13 Ensuring all Retrieve Querys Done on
+
+ --UC6 Checking
+
+select * from NewAddbook where City='Hyderabad' or State='Maharashtra';
+select FirstName from NewAddbook where City='Bhandara' or State='Maharashtra';
+select * from NewAddbook where City='Hyderabad' and State='Maharashtra';
+
+--UC7 Checking
+
+select count(City) as CityCount from NewAddbook;
+
+select count(State) as StateCount from NewAddbook;
+
+select count(*) as Statecount ,State  from NewAddbook group by state;
+
+select count(*) as Citycount ,City from NewAddbook group by City;
+
+--UC8 Checking
+
+select * from NewAddbook order by City asc;
+select * from NewAddbook order by City desc;
+
+select FirstName,LastName,Address,State from NewAddbook order by City asc;
+select FirstName,LastName,Address,State from NewAddbook order by City desc;
+
+--UC10 Checking
+
+select COUNT(Type) as FriendsCircle from AddbookType where Type='Friend' group by type;
+
+select COUNT(Type) as FamilyMember from AddbookType where Type='Family' group by type;
+
+select COUNT(Type) as Partners from AddbookType where Type='Profession' group by type;
+
